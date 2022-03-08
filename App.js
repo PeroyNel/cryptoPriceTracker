@@ -18,6 +18,8 @@ import {
   View,
 } from 'react-native';
 
+import ListItem from './components/Listitem';
+
 import {
   Colors,
   DebugInstructions,
@@ -26,10 +28,12 @@ import {
   ReloadInstructions,
 } from 'react-native/Libraries/NewAppScreen';
 
+import {SAMPLE_DATA} from './assets/data/sampleData';
+
 const Section = ({children, title}): Node => {
   const isDarkMode = useColorScheme() === 'dark';
   return (
-    <View style={styles.sectionContainer}>
+    <SafeAreaView style={styles.sectionContainer}>
       <Text
         style={[
           styles.sectionTitle,
@@ -48,7 +52,7 @@ const Section = ({children, title}): Node => {
         ]}>
         {children}
       </Text>
-    </View>
+    </SafeAreaView>
   );
 };
 
@@ -60,15 +64,15 @@ const App: () => Node = () => {
   };
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <View style={styles.titleWrapper}>
         <Text style={styles.largeTitle}>Markets</Text>
-
       </View>
-      
-    </View>
+      <View style={styles.divider} />
+      <ListItem name={SAMPLE_DATA[0].name} symbol={SAMPLE_DATA[0].symbol} currentPrice={SAMPLE_DATA[0].current_price} priceChange={SAMPLE_DATA[0].price_change_percentage_7d_in_currency} logoUrl={SAMPLE_DATA[0].image}/>
+    </SafeAreaView>
   );
-};
+}
 
 const styles = StyleSheet.create({
   sectionContainer: {
@@ -78,10 +82,16 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
   },
-  largeTitle
+  titleWrapper: {
+    marginTop: 40,
+    paddingHorizontal: 16,
+  },
+  largeTitle: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    color: '#000',
+  },
   sectionTitle: {
     fontSize: 24,
     fontWeight: '600',
@@ -93,6 +103,12 @@ const styles = StyleSheet.create({
   },
   highlight: {
     fontWeight: '700',
+  },
+  divider: {
+    height: StyleSheet.hairlineWidth,
+    backgroundColor: '#A9ABB1',
+    marginTop: 8,
+    marginHorizontal: 16,
   },
 });
 
