@@ -6,7 +6,7 @@
  * @flow strict-local
  */
 
-import React from 'react';
+import React, {useRef, useMemo} from 'react';
 import type {Node} from 'react';
 import {
   SafeAreaView,
@@ -16,9 +16,12 @@ import {
   Text,
   useColorScheme,
   View,
+  FlatList
 } from 'react-native';
 
 import ListItem from './components/Listitem';
+
+import {BottomSheetModal, BottomSheetModalProvider} from '@gorhom/bottom-sheet';
 
 import {
   Colors,
@@ -56,23 +59,60 @@ const Section = ({children, title}): Node => {
   );
 };
 
+const ListHeader = () => (
+  <>
+    <View style={styles.titleWrapper}>
+      <Text style={styles.largeTitle}>Markets</Text>
+    </View>
+    <View style={styles.divider} />
+  </>
+  
+)
+
 const App: () => Node = () => {
   const isDarkMode = useColorScheme() === 'dark';
+
+  // ref
+  const bottomSheetModalRef = useRef(null);
+
+  // variables
+  const snapPoints = useMemo(() => ['50%'], []);
 
   const backgroundStyle = {
     backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
   };
 
   return (
+    <BottomSheetModalProvider>
     <SafeAreaView style={styles.container}>
-      <View style={styles.titleWrapper}>
-        <Text style={styles.largeTitle}>Markets</Text>
-      </View>
-      <View style={styles.divider} />
-      <ListItem name={SAMPLE_DATA[0].name} symbol={SAMPLE_DATA[0].symbol} currentPrice={SAMPLE_DATA[0].current_price} priceChange={SAMPLE_DATA[0].price_change_percentage_7d_in_currency} logoUrl={SAMPLE_DATA[0].image}/>
+      <FlatList
+        keyExtractor={(item) => item.id}
+        data={SAMPLE_DATA}
+        renderItem={({ item }) => (
+          <ListItem
+            name={item.name}
+            symbol={item.symbol}
+            currentPrice={item.current_price}
+            priceChange={item.price_change_percentage_7d_in_currency}
+            logoUrl={item.image}
+          />
+        )}
+        ListHeaderComponent={<ListHeader />}
+      />
     </SafeAreaView>
+    <BottomSheetModal 
+      ref={bottomSheetModalRef}
+      index={1}
+      snapPoints={snapPoints}
+    >
+      <View style={styles.contentContainer}>
+        <Text>Awesome 🎉</Text>
+      </View>
+    </BottomSheetModal> 
+    
+    </BottomSheetModalProvider>
   );
-}
+};
 
 const styles = StyleSheet.create({
   sectionContainer: {

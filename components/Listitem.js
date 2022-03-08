@@ -37,20 +37,26 @@ const styles = StyleSheet.create({
     image: {
         height: 48,
         width: 48,
+        
     },
     leftWrapper: {
         flexDirection: 'row',
         alignItems: 'center',
+        
+        
     },
     titlesWrapper: {
+        
 
     },
     title: {
+        marginLeft: 8,
         fontSize: 18,
         color: "black",
 
     },
     subtitle: {
+        marginLeft: 8,
         marginTop: 4,
         fontSize: 14,
         color: "#A9ABB1",
