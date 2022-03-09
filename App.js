@@ -23,7 +23,10 @@ import {
 import ListItem from './components/Listitem';
 import Chart from './components/Chart';
 
-import {BottomSheetModal, BottomSheetModalProvider, BottomSheetBackdrop} from '@gorhom/bottom-sheet';
+import {
+  BottomSheetModal,
+  BottomSheetModalProvider,
+  BottomSheetBackdrop} from '@gorhom/bottom-sheet';
 
 import {
   Colors,
@@ -69,7 +72,6 @@ const ListHeader = () => (
     </View>
     <View style={styles.divider} />
   </>
-  
 )
 
 const App: () => Node = () => {
@@ -93,35 +95,48 @@ const App: () => Node = () => {
   const [selectedCoinData, setSelectedCoinData] = useState(null);
 
   return (
-    <SafeAreaView style={styles.container}>
-      <GestureHandlerRootView style={{ flex: 1 }}>
+    
+      <SafeAreaView style={styles.container}>
+        <GestureHandlerRootView style={{flex: 1}}>
         <BottomSheetModalProvider>
-          <FlatList
-            keyExtractor={(item) => item.id}
-            data={SAMPLE_DATA}
-            renderItem={({ item }) => (
-              <ListItem
-                name={item.name}
-                symbol={item.symbol}
-                currentPrice={item.current_price}
-                priceChange={item.price_change_percentage_7d_in_currency}
-                logoUrl={item.image}
-                onPress={() => openModal(item)}
-              />
-            )}
-            ListHeaderComponent={<ListHeader />}
-          />
-            <View style={styles.bottomSheet}>
-              <BottomSheetModal ref={bottomSheetModalRef} index={0} snapPoints={snapPoints} handleComponent={SheetHandle}>
-              { selectedCoinData ? (
-
-                <Chart currentPrice={selectedCoinData.current_price} logoUrl={selectedCoinData.image} name={selectedCoinData.name} priceChange={selectedCoinData.priceChange} sparkline={selectedCoinData.sparkline_in_7d.price}/>
-              ) : null}
-              </BottomSheetModal>
-            </View>
-        </BottomSheetModalProvider>
-      </GestureHandlerRootView>
-    </SafeAreaView>
+            <FlatList
+              keyExtractor={(item) => item.id}
+              data={SAMPLE_DATA}
+              renderItem={({ item }) => (
+                <ListItem
+                  name={item.name}
+                  symbol={item.symbol}
+                  currentPrice={item.current_price}
+                  priceChange={item.price_change_percentage_7d_in_currency}
+                  logoUrl={item.image}
+                  onPress={() => openModal(item)}
+                />
+              )}
+              ListHeaderComponent={<ListHeader />}
+            />
+              <View style={styles.bottomSheet}>
+                <BottomSheetModal ref={bottomSheetModalRef} index={0} snapPoints={snapPoints} handleComponent={SheetHandle}>
+                  { selectedCoinData ? (
+                    <Chart
+                      currentPrice={selectedCoinData.current_price}
+                      logoUrl={selectedCoinData.image}
+                      name={selectedCoinData.name}
+                      symbol={selectedCoinData.symbol}
+                      priceChange={selectedCoinData.price_change_percentage_7d_in_currency}
+                      sparkline={selectedCoinData?.sparkline_in_7d.price}
+                    />
+                      ) 
+                    : null}
+                </BottomSheetModal>
+                        
+              </View>
+        </BottomSheetModalProvider>      
+        </GestureHandlerRootView>      
+      </SafeAreaView>
+           
+        
+      
+    
   );
 };
 
