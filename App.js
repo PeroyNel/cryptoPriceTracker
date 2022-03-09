@@ -6,8 +6,9 @@
  * @flow strict-local
  */
 
-import React, {useRef, useMemo} from 'react';
+import React, {useRef, useMemo, useState} from 'react';
 import type {Node} from 'react';
+import SheetHandle from './components/SheetHandle';
 import {
   SafeAreaView,
   ScrollView,
@@ -20,8 +21,9 @@ import {
 } from 'react-native';
 
 import ListItem from './components/Listitem';
+import Chart from './components/Chart';
 
-import {BottomSheetModal, BottomSheetModalProvider} from '@gorhom/bottom-sheet';
+import {BottomSheetModal, BottomSheetModalProvider, BottomSheetBackdrop} from '@gorhom/bottom-sheet';
 
 import {
   Colors,
@@ -32,6 +34,7 @@ import {
 } from 'react-native/Libraries/NewAppScreen';
 
 import {SAMPLE_DATA} from './assets/data/sampleData';
+import {GestureHandlerRootView} from 'react-native-gesture-handler';
 
 const Section = ({children, title}): Node => {
   const isDarkMode = useColorScheme() === 'dark';
@@ -82,35 +85,43 @@ const App: () => Node = () => {
     backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
   };
 
+  const openModal = (item) => {
+    setSelectedCoinData(item);
+    bottomSheetModalRef.current.present();
+  }
+
+  const [selectedCoinData, setSelectedCoinData] = useState(null);
+
   return (
-    <BottomSheetModalProvider>
     <SafeAreaView style={styles.container}>
-      <FlatList
-        keyExtractor={(item) => item.id}
-        data={SAMPLE_DATA}
-        renderItem={({ item }) => (
-          <ListItem
-            name={item.name}
-            symbol={item.symbol}
-            currentPrice={item.current_price}
-            priceChange={item.price_change_percentage_7d_in_currency}
-            logoUrl={item.image}
+      <GestureHandlerRootView style={{ flex: 1 }}>
+        <BottomSheetModalProvider>
+          <FlatList
+            keyExtractor={(item) => item.id}
+            data={SAMPLE_DATA}
+            renderItem={({ item }) => (
+              <ListItem
+                name={item.name}
+                symbol={item.symbol}
+                currentPrice={item.current_price}
+                priceChange={item.price_change_percentage_7d_in_currency}
+                logoUrl={item.image}
+                onPress={() => openModal(item)}
+              />
+            )}
+            ListHeaderComponent={<ListHeader />}
           />
-        )}
-        ListHeaderComponent={<ListHeader />}
-      />
+            <View style={styles.bottomSheet}>
+              <BottomSheetModal ref={bottomSheetModalRef} index={0} snapPoints={snapPoints} handleComponent={SheetHandle}>
+              { selectedCoinData ? (
+
+                <Chart currentPrice={selectedCoinData.current_price} logoUrl={selectedCoinData.image} name={selectedCoinData.name} priceChange={selectedCoinData.priceChange} sparkline={selectedCoinData.sparkline_in_7d.price}/>
+              ) : null}
+              </BottomSheetModal>
+            </View>
+        </BottomSheetModalProvider>
+      </GestureHandlerRootView>
     </SafeAreaView>
-    <BottomSheetModal 
-      ref={bottomSheetModalRef}
-      index={1}
-      snapPoints={snapPoints}
-    >
-      <View style={styles.contentContainer}>
-        <Text>Awesome 🎉</Text>
-      </View>
-    </BottomSheetModal> 
-    
-    </BottomSheetModalProvider>
   );
 };
 
@@ -149,6 +160,16 @@ const styles = StyleSheet.create({
     backgroundColor: '#A9ABB1',
     marginTop: 8,
     marginHorizontal: 16,
+  },
+  bottomSheet: {
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: -4,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 14,
+    elevation: 5,
   },
 });
 

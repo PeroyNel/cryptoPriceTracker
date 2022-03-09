@@ -1,10 +1,10 @@
-import { View, Text, TouchableOpacity, StyleSheet, Image } from 'react-native'
-import React from 'react'
+import { View, Text, TouchableOpacity, StyleSheet, Image } from 'react-native';
+import React from 'react';
 
-const ListItem = ({ name, symbol, currentPrice, priceChange, logoUrl}) => {
+const ListItem = ({ name, symbol, currentPrice, priceChange, logoUrl, onPress }) => {
   const priceChangeColor = priceChange > 0 ? '#34C759' : '#FF3830';
   return (
-    <TouchableOpacity>
+    <TouchableOpacity onPress={onPress}>
         <View style={styles.itemWrapper}>
             <View style={styles.leftWrapper}>
                 <Image source={{ uri: logoUrl }} style={styles.image}/>
