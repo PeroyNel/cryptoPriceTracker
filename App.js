@@ -95,7 +95,6 @@ const App: () => Node = () => {
   const [selectedCoinData, setSelectedCoinData] = useState(null);
 
   return (
-    
       <SafeAreaView style={styles.container}>
         <GestureHandlerRootView style={{flex: 1}}>
         <BottomSheetModalProvider>
@@ -128,15 +127,10 @@ const App: () => Node = () => {
                       ) 
                     : null}
                 </BottomSheetModal>
-                        
               </View>
         </BottomSheetModalProvider>      
         </GestureHandlerRootView>      
       </SafeAreaView>
-           
-        
-      
-    
   );
 };
 
