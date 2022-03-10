@@ -98,38 +98,38 @@ const App: () => Node = () => {
   return (
       <SafeAreaView style={styles.container}>
         <GestureHandlerRootView style={{flex: 1}}>
-        <BottomSheetModalProvider>
-            <FlatList
-              keyExtractor={(item) => item.id}
-              data={SAMPLE_DATA}
-              renderItem={({ item }) => (
-                <ListItem
-                  name={item.name}
-                  symbol={item.symbol}
-                  currentPrice={item.current_price}
-                  priceChange={item.price_change_percentage_7d_in_currency}
-                  logoUrl={item.image}
-                  onPress={() => openModal(item)}
-                />
-              )}
-              ListHeaderComponent={<ListHeader />}
-            />
-              <View style={styles.bottomSheet}>
-                <BottomSheetModal ref={bottomSheetModalRef} index={0} snapPoints={snapPoints} handleComponent={SheetHandle}>
-                  { selectedCoinData ? (
-                    <Chart
-                      currentPrice={selectedCoinData.current_price}
-                      logoUrl={selectedCoinData.image}
-                      name={selectedCoinData.name}
-                      symbol={selectedCoinData.symbol}
-                      priceChange={selectedCoinData.price_change_percentage_7d_in_currency}
-                      sparkline={selectedCoinData?.sparkline_in_7d.price}
-                    />
-                      ) 
-                    : null}
-                </BottomSheetModal>
-              </View>
-        </BottomSheetModalProvider>      
+          <BottomSheetModalProvider>
+              <FlatList
+                keyExtractor={(item) => item.id}
+                data={SAMPLE_DATA}
+                renderItem={({ item }) => (
+                  <ListItem
+                    name={item.name}
+                    symbol={item.symbol}
+                    currentPrice={item.current_price}
+                    priceChange={item.price_change_percentage_7d_in_currency}
+                    logoUrl={item.image}
+                    onPress={() => openModal(item)}
+                  />
+                )}
+                ListHeaderComponent={<ListHeader />}
+              />
+                <View style={styles.bottomSheet}>
+                  <BottomSheetModal ref={bottomSheetModalRef} index={0} snapPoints={snapPoints} handleComponent={SheetHandle}>
+                    { selectedCoinData ? (
+                      <Chart
+                        currentPrice={selectedCoinData.current_price}
+                        logoUrl={selectedCoinData.image}
+                        name={selectedCoinData.name}
+                        symbol={selectedCoinData.symbol}
+                        priceChange={selectedCoinData.price_change_percentage_7d_in_currency}
+                        sparkline={selectedCoinData?.sparkline_in_7d.price}
+                      />
+                        ) 
+                      : null}
+                  </BottomSheetModal>
+                </View>
+          </BottomSheetModalProvider>      
         </GestureHandlerRootView>      
       </SafeAreaView>
   );
