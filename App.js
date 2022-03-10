@@ -75,6 +75,7 @@ const ListHeader = () => (
 )
 
 const App: () => Node = () => {
+  console.disableYellowBox = true;
   const isDarkMode = useColorScheme() === 'dark';
 
   // ref

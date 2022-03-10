@@ -711,7 +711,7 @@ export const SAMPLE_DATA = [
     },
     {
       id: 'ethereum',
-      symbol: 'eth',
+      symbol: 'ETH',
       name: 'Ethereum',
       image:
         'https://assets.coingecko.com/coins/images/279/large/ethereum.png?1595348880',
@@ -1425,7 +1425,7 @@ export const SAMPLE_DATA = [
     },
     {
       id: 'tether',
-      symbol: 'usdt',
+      symbol: 'USDT',
       name: 'Tether',
       image:
         'https://assets.coingecko.com/coins/images/325/large/Tether-logo.png?1598003707',
@@ -2131,7 +2131,7 @@ export const SAMPLE_DATA = [
     },
     {
       id: 'binancecoin',
-      symbol: 'bnb',
+      symbol: 'BNB',
       name: 'Binance Coin',
       image:
         'https://assets.coingecko.com/coins/images/825/large/binance-coin-logo.png?1547034615',
@@ -2841,7 +2841,7 @@ export const SAMPLE_DATA = [
     },
     {
       id: 'cardano',
-      symbol: 'ada',
+      symbol: 'ADA',
       name: 'Cardano',
       image:
         'https://assets.coingecko.com/coins/images/975/large/cardano.png?1547034860',
@@ -3551,7 +3551,7 @@ export const SAMPLE_DATA = [
     },
     {
       id: 'ripple',
-      symbol: 'xrp',
+      symbol: 'XRP',
       name: 'XRP',
       image:
         'https://assets.coingecko.com/coins/images/44/large/xrp-symbol-white-128.png?1605778731',
