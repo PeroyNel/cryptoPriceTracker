@@ -6,7 +6,7 @@
  * @flow strict-local
  */
 
-import React, {useRef, useMemo, useState} from 'react';
+import React, {useRef, useMemo, useState, useEffect} from 'react';
 import type {Node} from 'react';
 import SheetHandle from './components/SheetHandle';
 import {
@@ -38,32 +38,9 @@ import {
 
 import {SAMPLE_DATA} from './assets/data/sampleData';
 import {GestureHandlerRootView} from 'react-native-gesture-handler';
+import {getMarketData} from './services/cryptoService';
 
-const Section = ({children, title}): Node => {
-  const isDarkMode = useColorScheme() === 'dark';
-  return (
-    <SafeAreaView style={styles.sectionContainer}>
-      <Text
-        style={[
-          styles.sectionTitle,
-          {
-            color: isDarkMode ? Colors.white : Colors.black,
-          },
-        ]}>
-        {title}
-      </Text>
-      <Text
-        style={[
-          styles.sectionDescription,
-          {
-            color: isDarkMode ? Colors.light : Colors.dark,
-          },
-        ]}>
-        {children}
-      </Text>
-    </SafeAreaView>
-  );
-};
+
 
 const ListHeader = () => (
   <>
@@ -75,8 +52,20 @@ const ListHeader = () => (
 )
 
 const App: () => Node = () => {
-  console.disableYellowBox = true;
-  const isDarkMode = useColorScheme() === 'dark';
+  const [data, setData] = useState([]);
+  const [selectedCoinData, setSelectedCoinData] = useState(null);
+
+  useEffect(() => {
+    const fetchMarketData = async () => {
+      const marketData = await getMarketData();
+      setData(marketData);
+    }
+
+    fetchMarketData();
+  }, [])
+
+  //console.disableYellowBox = true;
+  
 
   // ref
   const bottomSheetModalRef = useRef(null);
@@ -84,24 +73,21 @@ const App: () => Node = () => {
   // variables
   const snapPoints = useMemo(() => ['50%'], []);
 
-  const backgroundStyle = {
-    backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
-  };
+  
 
   const openModal = (item) => {
     setSelectedCoinData(item);
-    bottomSheetModalRef.current.present();
+    bottomSheetModalRef.current?.present();
   }
 
-  const [selectedCoinData, setSelectedCoinData] = useState(null);
-
   return (
+      
       <SafeAreaView style={styles.container}>
         <GestureHandlerRootView style={{flex: 1}}>
           <BottomSheetModalProvider>
               <FlatList
                 keyExtractor={(item) => item.id}
-                data={SAMPLE_DATA}
+                data={data}
                 renderItem={({ item }) => (
                   <ListItem
                     name={item.name}
@@ -129,9 +115,10 @@ const App: () => Node = () => {
                       : null}
                   </BottomSheetModal>
                 </View>
-          </BottomSheetModalProvider>      
+          </BottomSheetModalProvider>             
         </GestureHandlerRootView>      
       </SafeAreaView>
+      
   );
 };
 
